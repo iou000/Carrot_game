@@ -95,7 +95,7 @@ body {
   align-items: center;
   background: rgb(0, 0, 0, 0.5);
   width: 350px;
-  height: 90px;
+  height: 110px;
   border-radius: 20px;
   transform: translateY(-150%);
 }

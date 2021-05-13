@@ -1,5 +1,8 @@
 const gameField = document.querySelector('.game_field');
 const play_button = document.querySelector('.play_button');
+const message_box = document.querySelector('.message_box');
+const replay_button = document.querySelector('.replay_button');
+const game_message = document.querySelector('.game_message');
 
 let BUG_COUNT = 10;
 let CARROT_COUNT = 10;
@@ -58,21 +61,37 @@ function start_timer(count) {
             if(minute <= 0 && second < 0){
             clearInterval(timer);
             }
+            TIMER_COUNT = second;
         }, 1000);
 
+
 }
 
-function show_score(CARROT_COUNT) {
-    game_score.innerHTML = `${CARROT_COUNT}`;
+function show_score(count) {
+    game_score.innerHTML = `${count}`;
 }
 
+
+function show_message_box(text) {
+    message_box.classList.remove('hide');
+    game_message.innerHTML = text;
+    gameField.style.pointer = 'none';
+    play_button.style.visibility = 'hidden';
+}
 
 
 play_button.addEventListener('click', () => {
     if (icon.className === 'fas fa-play'){
-    start_game();
+        start_game();
     }
     else if(icon.className === 'fas fa-stop') {
         clearInterval(timer);
+        show_message_box('REPLAY❓');
     }
+});
+
+replay_button.addEventListener('click', () => {
+    message_box.classList.add('hide');
+    play_button.style.visibility = 'visible';
+    start_timer(TIMER_COUNT);
 })
