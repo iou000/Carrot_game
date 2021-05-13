@@ -7,6 +7,7 @@ const game_message = document.querySelector('.game_message');
 let BUG_COUNT = 10;
 let CARROT_COUNT = 10;
 let TIMER_COUNT = 10;
+let score = 0;
 
 //당근, 벌레 랜덤배치 함수
 function init_BugOrCarrot(className, imgPath, count) {
@@ -36,8 +37,8 @@ const game_score = document.querySelector('.game_score');
 
 
 function start_game() {
+    score = 0;
     init_game();
-    showStopButton();
     start_timer(TIMER_COUNT);
     show_score(CARROT_COUNT);
 }
@@ -50,39 +51,72 @@ function showStopButton() {
 function start_timer(count) {
     let minute = Math.floor(count / 60);
     let second = count % 60;
-        
-        timer = setInterval(() => {
-            game_timer.textContent=``;
-            game_timer.innerHTML = `${minute}:${second}`;
-            second--;
-            if(second < 3){
-                game_timer.style.background = '#FF0000';
-            }
-            if(minute <= 0 && second < 0){
+
+    game_timer.textContent = `${minute}:${second}`;
+    
+
+    timer = setInterval(() => {
+        game_timer.textContent = `${minute}:${second-1}`;
+        second--;
+        if(minute > 0 && second === 0){
+            minute--;
+            second = 60;
+        }
+        if(second < 3){
+            game_timer.style.background = '#ff0000';
+        }
+        if(minute === 0 && second < 1){
             clearInterval(timer);
-            }
-            TIMER_COUNT = second;
-        }, 1000);
-
-
+            game_timer.style.background = '#ffffff';
+        }
+    }, 1000);
 }
 
 function show_score(count) {
-    game_score.innerHTML = `${count}`;
+    game_score.textContent = `${count}`;
 }
 
 
 function show_message_box(text) {
     message_box.classList.remove('hide');
-    game_message.innerHTML = text;
+    game_message.innerText = text;
     gameField.style.pointer = 'none';
     play_button.style.visibility = 'hidden';
 }
+
+function removeAllBugCarrot() {
+    while(gameField.firstChild)
+    gameField.removeChild(gameField.firstChild);
+}
+
+function replayGame() {
+    message_box.classList.add('hide');
+    play_button.style.visibility = 'visible';
+    game_timer.style.background = '#ffffff';
+    removeAllBugCarrot();
+    start_game();
+
+}
+
+
+gameField.addEventListener('click', (e) => {
+    if(e.target.className === 'carrot'){
+        e.target.remove();
+        score++;
+        show_score(CARROT_COUNT-score);
+    }
+    if(e.target.className === 'bug'){
+        clearInterval(timer);
+        show_message_box('YOU LOSE');
+    }
+});
+
 
 
 play_button.addEventListener('click', () => {
     if (icon.className === 'fas fa-play'){
         start_game();
+        showStopButton();
     }
     else if(icon.className === 'fas fa-stop') {
         clearInterval(timer);
@@ -91,7 +125,7 @@ play_button.addEventListener('click', () => {
 });
 
 replay_button.addEventListener('click', () => {
-    message_box.classList.add('hide');
-    play_button.style.visibility = 'visible';
-    start_timer(TIMER_COUNT);
-})
+    replayGame();
+});
+
+
