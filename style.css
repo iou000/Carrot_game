@@ -1,5 +1,6 @@
 body {
   background-color: black;
+  height: 500px;
 }
 
 .carrot_game {
@@ -89,15 +90,23 @@ body {
 
 .message_box {
   margin: auto;
-  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  height: 220px;
+  transform: translateY(-100%);
+}
+
+.message {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   background: rgb(0, 0, 0, 0.5);
   width: 350px;
-  height: 110px;
+  height: 130px;
   border-radius: 20px;
-  transform: translateY(-150%);
 }
 
 .hide {
