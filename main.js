@@ -45,12 +45,11 @@ function init_game() {
     init_BugOrCarrot('bug', 'img/bug.png', CARROT_COUNT);
 }
 
-
-
 function start_game() {
     playSound(bgSound);
     score = 0;
     init_game();
+    showStopButton();
     start_timer(TIMER_COUNT);
     show_score(CARROT_COUNT);
 }
@@ -78,12 +77,16 @@ function start_timer(count) {
         }
         if (minute === 0 && second < 1) {
             playSound(bugSound);
-            stopSound(bgSound);
-            clearInterval(timer);
+            stopGame('YOU LOSE');
             game_timer.style.background = '#ffffff';
-            show_message_box('YOU LOSE');
         }
     }, 1000);
+}
+
+function stopGame(text) {
+    stopSound(bgSound);
+    clearInterval(timer);
+    show_message_box(text);
 }
 
 function show_score(count) {
@@ -94,7 +97,6 @@ function show_message_box(text) {
     message_box.classList.remove('hide');
     game_message.innerText = text;
     play_button.style.visibility = 'hidden';
-    
 }
 
 function removeAllBugCarrot() {
@@ -120,6 +122,8 @@ function stopSound(sound) {
     sound.pause();
 }
 
+
+
 gameField.addEventListener('click', (e) => {
     //당근 클릭했을 때
     if (e.target.className === 'carrot') {
@@ -129,30 +133,23 @@ gameField.addEventListener('click', (e) => {
         show_score(CARROT_COUNT - score);
         if(CARROT_COUNT - score === 0){
             playSound(gameWinSound);
-            clearInterval(timer);
-            show_message_box('CHICKEN🍗');
-            stopSound(bgSound);
+            stopGame('CHICKEN🍗');
         }
     }
     //벌레 클릭했을 때
     if (e.target.className === 'bug') {
         playSound(bugSound);
-        clearInterval(timer);
-        show_message_box('YOU LOSE');
-        stopSound(bgSound);
+        stopGame('YOU LOSE');
     }
 });
 
 play_button.addEventListener('click', () => {
     if (icon.className === 'fas fa-play') {
         start_game();
-        showStopButton();
     }
     else if (icon.className === 'fas fa-stop') {
         playSound(alertSound);
-        stopSound(bgSound);
-        clearInterval(timer);
-        show_message_box('REPLAY❓');
+        stopGame('REPLAY❓');
     }
 });
 
