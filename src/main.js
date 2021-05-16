@@ -1,8 +1,9 @@
+'use strict';
+import MessageBox from './messageBox.js';
+
 const gameField = document.querySelector('.game_field');
 const play_button = document.querySelector('.play_button');
-const message_box = document.querySelector('.message_box');
-const replay_button = document.querySelector('.replay_button');
-const game_message = document.querySelector('.game_message');
+
 
 let BUG_COUNT = 10;
 let CARROT_COUNT = 10;
@@ -10,6 +11,7 @@ let TIMER_COUNT = 10;
 let score = 0;
 let minute = 0;
 let second = 0;
+let timer = undefined;
 
 const icon = document.querySelector('.fas');
 const game_timer = document.querySelector('.game_timer');
@@ -22,6 +24,11 @@ const gameWinSound = new Audio('sound/game_win.mp3');
 const alertSound = new Audio('sound/alert.wav');
 
 
+
+const gameFinishBanner = new MessageBox();
+gameFinishBanner.setClickListener(() => {
+    replayGame();
+});
 
 //당근, 벌레 랜덤배치 함수
 function init_BugOrCarrot(className, imgPath, count) {
@@ -86,17 +93,12 @@ function start_timer(count) {
 function stopGame(text) {
     stopSound(bgSound);
     clearInterval(timer);
-    show_message_box(text);
+    gameFinishBanner.showWithText(text);
+    play_button.style.visibility = 'hidden';
 }
 
 function show_score(count) {
     game_score.textContent = `${count}`; 
-}
-
-function show_message_box(text) {
-    message_box.classList.remove('hide');
-    game_message.innerText = text;
-    play_button.style.visibility = 'hidden';
 }
 
 function removeAllBugCarrot() {
@@ -106,10 +108,9 @@ function removeAllBugCarrot() {
 }
 
 function replayGame() {
-    message_box.classList.add('hide');
+    removeAllBugCarrot();
     play_button.style.visibility = 'visible';
     game_timer.style.background = '#ffffff';
-    removeAllBugCarrot();
     start_game();
 }
 
@@ -151,8 +152,4 @@ play_button.addEventListener('click', () => {
         playSound(alertSound);
         stopGame('REPLAY❓');
     }
-});
-
-replay_button.addEventListener('click', () => {
-    replayGame();
 });
