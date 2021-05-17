@@ -1,7 +1,7 @@
 'use strict';
 import MessageBox from './messageBox.js';
+import Field from './field.js';
 
-const gameField = document.querySelector('.game_field');
 const play_button = document.querySelector('.play_button');
 
 
@@ -18,44 +18,36 @@ const game_timer = document.querySelector('.game_timer');
 const game_score = document.querySelector('.game_score');
 
 const bgSound = new Audio('sound/bg.mp3');
-const carrotSound = new Audio('sound/carrot_pull.mp3');
-const bugSound = new Audio('sound/bug_pull.mp3');
 const gameWinSound = new Audio('sound/game_win.mp3');
 const alertSound = new Audio('sound/alert.wav');
 
 
 
 const gameFinishBanner = new MessageBox();
-gameFinishBanner.setClickListener(() => {
-    replayGame();
-});
+gameFinishBanner.setClickListener(replayGame);
 
-//당근, 벌레 랜덤배치 함수
-function init_BugOrCarrot(className, imgPath, count) {
-    for (let i = 0; i < count; i++) {
-        //x : 0~760, y : 0~176
-        const x = Math.random() * 760;
-        const y = Math.random() * 176;
+const gameField = new Field(CARROT_COUNT, BUG_COUNT);
+gameField.setClickListener(onItemClick);
 
-        const item = document.createElement('img');
-        item.setAttribute('src', imgPath);
-        item.setAttribute('class', className);
-        item.style.left = `${x}px`;
-        item.style.top = `${y}px`;
-        gameField.appendChild(item);
+
+function onItemClick(item) {
+    if (item === 'carrot'){
+        score++;
+        show_score(CARROT_COUNT-score);
     }
-}
-
-//Field에 당근,벌레 램덤위치에 생성
-function init_game() {
-    init_BugOrCarrot('carrot', 'img/carrot.png', BUG_COUNT);
-    init_BugOrCarrot('bug', 'img/bug.png', CARROT_COUNT);
+    if(CARROT_COUNT - score === 0){
+        playSound(gameWinSound);
+        stopGame('CHICKEN🍗');
+    }
+    if (item === 'bug') {
+        stopGame('YOU LOSE');
+    }
 }
 
 function start_game() {
     playSound(bgSound);
     score = 0;
-    init_game();
+    gameField.init();
     showStopButton();
     start_timer(TIMER_COUNT);
     show_score(CARROT_COUNT);
@@ -83,7 +75,6 @@ function start_timer(count) {
             game_timer.style.background = '#ff0000';
         }
         if (minute === 0 && second < 1) {
-            playSound(bugSound);
             stopGame('YOU LOSE');
             game_timer.style.background = '#ffffff';
         }
@@ -101,14 +92,8 @@ function show_score(count) {
     game_score.textContent = `${count}`; 
 }
 
-function removeAllBugCarrot() {
-    while (gameField.firstChild){
-        gameField.removeChild(gameField.firstChild);
-    }
-}
-
 function replayGame() {
-    removeAllBugCarrot();
+    gameField.removeAllBugCarrot();
     play_button.style.visibility = 'visible';
     game_timer.style.background = '#ffffff';
     start_game();
@@ -122,27 +107,6 @@ function playSound(sound) {
 function stopSound(sound) {
     sound.pause();
 }
-
-
-
-gameField.addEventListener('click', (e) => {
-    //당근 클릭했을 때
-    if (e.target.className === 'carrot') {
-        playSound(carrotSound);
-        e.target.remove();
-        score++;
-        show_score(CARROT_COUNT - score);
-        if(CARROT_COUNT - score === 0){
-            playSound(gameWinSound);
-            stopGame('CHICKEN🍗');
-        }
-    }
-    //벌레 클릭했을 때
-    if (e.target.className === 'bug') {
-        playSound(bugSound);
-        stopGame('YOU LOSE');
-    }
-});
 
 play_button.addEventListener('click', () => {
     if (icon.className === 'fas fa-play') {
