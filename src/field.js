@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import * as sound from './sound.js';
 
@@ -7,7 +7,7 @@ export default class Field{
         this.carrotCount = carrotCount;
         this.bugCount = bugCount;
         this.field = document.querySelector('.game_field');
-        this.field.addEventListener('click', this.onClick);
+        this.field.addEventListener('click', this.onClick); //this 바인딩 해줘야함
     }
 
     init() {
