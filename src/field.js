@@ -1,7 +1,7 @@
 'use strict'
 
-const carrotSound = new Audio('sound/carrot_pull.mp3');
-const bugSound = new Audio('sound/bug_pull.mp3');
+import * as sound from './sound.js';
+
 export default class Field{
     constructor(carrotCount, bugCount){
         this.carrotCount = carrotCount;
@@ -15,8 +15,8 @@ export default class Field{
         this._init_BugOrCarrot('bug', 'img/bug.png', this.bugCount);
     }
 
-    setClickListener(onItemClick) {
-        this.onItemClick = onItemClick;
+    setClickListener(onItemClick) { 
+        this.onItemClick = onItemClick; //클로저
     }
 
     _init_BugOrCarrot(className, imgPath, count) {
@@ -37,13 +37,13 @@ export default class Field{
     onClick = e => {
         //당근 클릭했을 때
         if (e.target.className === 'carrot') {
-        playSound(carrotSound);
+        sound.playCarrot();
         e.target.remove();
         this.onItemClick && this.onItemClick('carrot');
         }
         //벌레 클릭했을 때
         if (e.target.className === 'bug') {
-            playSound(bugSound);
+            sound.playBug();
             this.onItemClick && this.onItemClick('bug');
         }
     }
@@ -53,9 +53,5 @@ export default class Field{
             this.field.removeChild(this.field.firstChild);
         }
     }
-}
-function playSound(sound) {
-    sound.currentTime = 0;
-    sound.play();
 }
 
