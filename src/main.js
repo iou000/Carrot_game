@@ -15,5 +15,5 @@ game.setGameStopListener((text) => {
 });
 
 gameFinishBanner.setClickListener(() => {
-    game.replay();
+    game.start();
 });

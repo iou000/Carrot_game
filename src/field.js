@@ -11,6 +11,7 @@ export default class Field{
     }
 
     init() {
+        this.field.innerHTML='';
         this._init_BugOrCarrot('carrot', 'img/carrot.png', this.carrotCount);
         this._init_BugOrCarrot('bug', 'img/bug.png', this.bugCount);
     }
@@ -48,10 +49,6 @@ export default class Field{
         }
     }
 
-    removeAllBugCarrot() {
-        while (this.field.firstChild){
-            this.field.removeChild(this.field.firstChild);
-        }
-    }
+    
 }
 

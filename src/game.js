@@ -85,7 +85,7 @@ class Game {
                 this.score++;
                 this.show_score(this.carrotCount-this.score);
             }
-            if(this.carrotCount - this.score === 0){
+            if(this.carrotCount === this.score){
                 sound.playWin();
                 this.stop('CHICKEN🍗');
             }
@@ -127,14 +127,5 @@ class Game {
             }, 1000);
         }
 
-        replay() {
-            this.gameField.removeAllBugCarrot();
-            this.play_button.style.visibility = 'visible';
-            this.game_timer.style.background = '#ffffff';
-            this.start();
-        }
-
-
-        
 
     }
