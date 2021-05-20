@@ -21,6 +21,27 @@ body {
   align-items: center;
 }
 
+.level {
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: -2px 0 #1d2330, 0 2px #1d2330, 2px 0 #1d2330, 0 -2px #1d2330;
+  position: absolute;
+  color: gold;
+  top: 20px;
+  right: 290px;
+  cursor: default;
+}
+.scorePoint {
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: -2px 0 #1d2330, 0 2px #1d2330, 2px 0 #1d2330, 0 -2px #1d2330;
+  position: absolute;
+  color: white;
+  top: 55px;
+  right: 290px;
+  cursor: default;
+}
+
 .play_button {
   padding: 6px;
   width: 50px;
@@ -49,6 +70,7 @@ body {
   background: white;
   border: solid 4px black;
   border-radius: 12px;
+  cursor: default;
 }
 
 .game_score {
@@ -61,6 +83,7 @@ body {
   background: coral;
   border: solid 2px black;
   border-radius: 50%;
+  cursor: default;
 }
 
 .game_field {

@@ -4,16 +4,16 @@ import * as sound from './sound.js';
 
 export default class Field{
     constructor(carrotCount, bugCount){
-        this.carrotCount = carrotCount;
-        this.bugCount = bugCount;
+        this.fieldcarrotCount = carrotCount;
+        this.fieldbugCount = bugCount;
         this.field = document.querySelector('.game_field');
         this.field.addEventListener('click', this.onClick); //this 바인딩 해줘야함
     }
 
     init() {
         this.field.innerHTML='';
-        this._init_BugOrCarrot('carrot', 'img/carrot.png', this.carrotCount);
-        this._init_BugOrCarrot('bug', 'img/bug.png', this.bugCount);
+        this._init_BugOrCarrot('carrot', 'img/carrot.png', this.fieldcarrotCount);
+        this._init_BugOrCarrot('bug', 'img/bug.png', this.fieldbugCount);
     }
 
     setClickListener(onItemClick) { 

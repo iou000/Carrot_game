@@ -40,6 +40,8 @@ class Game {
         this.game_score = document.querySelector('.game_score');
         this.icon = document.querySelector('.fas');
         this.play_button = document.querySelector('.play_button');
+        this.level = document.querySelector('.level');
+        this.scorePoint = document.querySelector('.scorePoint');
 
         this.play_button.addEventListener('click', () => {
             if (this.icon.className === 'fas fa-play') {
@@ -58,6 +60,8 @@ class Game {
         this.minute = 0;
         this.second = 0;
         this.timer = undefined;
+        this.level_score = 1;
+        this.scorePointNum = 0;
     }
 
         setGameStopListener(onGameStop) {
@@ -65,12 +69,19 @@ class Game {
         }
 
         start() {
-            sound.playBackground();
-            this.score = 0;
+            this.setInitialize();
             this.gameField.init();
             this.showStopButton();
-            this.start_timer(this.gameTimer);
-            this.show_score(this.carrotCount);
+        }
+
+        level_up() {
+            this.setLevelUp();
+            this.gameField.init();
+        }
+
+        scoreUp() {
+            this.scorePointNum++;
+            this.scorePoint.innerHTML = `SCORE : ${this.scorePointNum}`;
         }
 
         stop(text) {
@@ -83,14 +94,15 @@ class Game {
         onItemClick = (item) => {
             if (item === 'carrot'){
                 this.score++;
-                this.show_score(this.carrotCount-this.score);
+                this.scoreUp();
+                this.show_score(this.gameField.fieldcarrotCount-this.score);
             }
-            if(this.carrotCount === this.score){
+            if(this.gameField.fieldcarrotCount === this.score){
                 sound.playWin();
-                this.stop('CHICKEN🍗');
+                this.stop('LEVEL UP!');
             }
             if (item === 'bug') {
-                this.stop('YOU LOSE');
+                this.stop(`YOU LOSE ${this.scorePointNum}점..`);
             }
         }
 
@@ -120,11 +132,44 @@ class Game {
                     this.game_timer.style.background = '#ff0000';
                 }
                 if (this.minute === 0 && this.second < 1) {
-                    this.stop('TIME OUT');
+                    this.stop(`TIME OUT ${this.scorePointNum}점..`);
                     this.game_timer.style.background = '#ffffff';
                     sound.playBug();
                 }
             }, 1000);
+        }
+
+        setButtonAndTimer() {
+            this.play_button.style.visibility = 'visible';
+            this.game_timer.style.background = '#ffffff';
+        }
+
+        setInitialize() {
+            this.setButtonAndTimer();
+            sound.playBackground();
+            this.score = 0;
+            this.level_score = 1;
+            this.scorePointNum = 0;
+            this.gameField.fieldbugCount = this.bugCount;
+            this.gameField.fieldcarrotCount = this.carrotCount;
+            this.i = 2;
+            this.level.innerHTML= `LEVEL : ${this.level_score}`;
+            this.scorePoint.innerHTML = `SCORE : ${this.scorePointNum}`;
+            this.start_timer(this.gameTimer);
+            this.show_score(this.carrotCount);
+        }
+
+        setLevelUp() {
+            this.setButtonAndTimer();
+            this.showStopButton();
+            sound.playBackground();
+            this.score = 0;
+            this.gameField.fieldbugCount += 3;
+            this.gameField.fieldcarrotCount += 2;
+            this.level_score++;
+            this.start_timer(this.gameTimer);
+            this.show_score(this.gameField.fieldcarrotCount);
+            this.level.innerHTML= `LEVEL : ${this.level_score}`;
         }
 
 
