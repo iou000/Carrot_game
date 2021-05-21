@@ -21,24 +21,27 @@ body {
   align-items: center;
 }
 
+.ScoreBoard {
+  position: relative;
+  top: -10px;
+  left: 353px;
+  width: 130px;
+  display: flex;
+  flex-direction: column;
+  height: 0px;
+}
 .level {
   font-size: 24px;
   font-weight: bold;
   text-shadow: -2px 0 #1d2330, 0 2px #1d2330, 2px 0 #1d2330, 0 -2px #1d2330;
-  position: absolute;
   color: gold;
-  top: 20px;
-  right: 290px;
   cursor: default;
 }
 .scorePoint {
   font-size: 18px;
   font-weight: bold;
   text-shadow: -2px 0 #1d2330, 0 2px #1d2330, 2px 0 #1d2330, 0 -2px #1d2330;
-  position: absolute;
   color: white;
-  top: 55px;
-  right: 290px;
   cursor: default;
 }
 
