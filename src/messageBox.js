@@ -31,10 +31,8 @@ export default class MessageBox {
 
     showWithText(text) {
         if(text === 'LEVEL UP!'){
-            console.log(this.replay_icon);
             this.replay_icon.classList.remove('fa-redo-alt');
             this.replay_icon.classList.add('fa-arrow-up');
-            console.log(this.replay_icon.className);
         }
         this.message_box.classList.remove('hide');
         this.game_message.innerText = text;
