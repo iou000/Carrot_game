@@ -14,10 +14,10 @@ game.setGameStopListener((text) => {
     gameFinishBanner.showWithText(text);
 });
 
-gameFinishBanner.setClickListener(() => {
+gameFinishBanner.setGameStartListener(() => {
     game.start();
 });
 
-gameFinishBanner.setLevel_up(() => {
+gameFinishBanner.setLevelUpListener(() => {
     game.level_up();
 })

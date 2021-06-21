@@ -14,18 +14,18 @@ export default class MessageBox {
                 this.hide();
             }
             else {
-            this.onClick && this.onClick();
+            this.gameStart && this.gameStart();
             this.hide();
             }
             
         });
     }
 
-    setClickListener(onClick) {
-        this.onClick = onClick;
+    setGameStartListener(gameStart) {
+        this.gameStart = gameStart;
     }
 
-    setLevel_up(levelup){
+    setLevelUpListener(levelup){
         this.levelup = levelup;
     }
 

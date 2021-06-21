@@ -71,7 +71,6 @@ class Game {
         start() {
             this.setInitialize();
             this.gameField.init();
-            this.showStopButton();
         }
 
         level_up() {
@@ -152,7 +151,6 @@ class Game {
             this.scorePointNum = 0;
             this.gameField.fieldbugCount = this.bugCount;
             this.gameField.fieldcarrotCount = this.carrotCount;
-            this.i = 2;
             this.level.innerHTML= `LEVEL : ${this.level_score}`;
             this.scorePoint.innerHTML = `SCORE : ${this.scorePointNum}`;
             this.start_timer(this.gameTimer);
@@ -161,7 +159,6 @@ class Game {
 
         setLevelUp() {
             this.setButtonAndTimer();
-            this.showStopButton();
             sound.playBackground();
             this.score = 0;
             this.gameField.fieldbugCount += 3;
